@@ -9,13 +9,24 @@ const DataList = ({isStatic = false}) => {
 
     useEffect(() => {
         if(isStatic) return;
+        // when this is moved inside the set interval, 
+        // it will have a constant value for each excecution
+        let localList = list
         const t = setInterval(() => {
+            
             setNames(list ? names2 : names1);
-            setList(!list);
+            localList = !localList
+            setList(localList);
+
         }, 3000);
 
-        return () => clearInterval(t)
-    })
+        console.log('use effect ran')
+
+        return () => {
+            console.log('clear ran')
+            clearInterval(t)
+        }
+    }, [])
 
     
     return <>
